@@ -2,8 +2,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { IconName } from '@fortawesome/fontawesome-svg-core'
 import { Dialog, Transition } from '@headlessui/react'
 import toast, { Toaster } from 'react-hot-toast'
-import { useHotkeys } from 'react-hotkeys-hook'
-
 import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
@@ -11,7 +9,6 @@ import { Fragment, useEffect, useState } from 'react'
 import { useTranslation } from 'next-i18next'
 
 import siteConfig from '../config/site.config'
-import SearchModal from './SearchModal'
 import SwitchLang from './SwitchLang'
 import useDeviceOS from '../utils/useDeviceOS'
 
@@ -21,14 +18,6 @@ const Navbar = () => {
 
   const [tokenPresent, setTokenPresent] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
-
-  const [searchOpen, setSearchOpen] = useState(false)
-  const openSearchBox = () => setSearchOpen(true)
-
-  useHotkeys(`${os === 'mac' ? 'cmd' : 'ctrl'}+k`, e => {
-    openSearchBox()
-    e.preventDefault()
-  })
 
   useEffect(() => {
     const storedToken = () => {
@@ -61,8 +50,6 @@ const Navbar = () => {
     <div className="sticky top-0 z-[100] border-b border-gray-900/10 bg-white bg-opacity-80 backdrop-blur-md dark:border-gray-500/30 dark:bg-gray-900">
       <Toaster />
 
-      <SearchModal searchOpen={searchOpen} setSearchOpen={setSearchOpen} />
-
       <div className="mx-auto flex w-full items-center justify-between space-x-4 px-4 py-1">
         <Link href="/" passHref>
           <a className="flex items-center space-x-2 py-2 hover:opacity-80 dark:text-white md:p-2">
@@ -72,22 +59,6 @@ const Navbar = () => {
         </Link>
 
         <div className="flex flex-1 items-center space-x-4 text-gray-700 md:flex-initial">
-          <button
-            className="flex flex-1 items-center justify-between rounded-lg bg-gray-100 px-2.5 py-1.5 hover:opacity-80 dark:bg-gray-800 dark:text-white md:w-48"
-            onClick={openSearchBox}
-          >
-            <div className="flex items-center space-x-2">
-              <FontAwesomeIcon className="h-4 w-4" icon="search" />
-              <span className="truncate text-sm font-medium">{t('Search ...')}</span>
-            </div>
-
-            <div className="hidden items-center space-x-1 md:flex">
-              <div className="rounded-lg bg-gray-200 px-2 py-1 text-xs font-medium dark:bg-gray-700">
-                {os === 'mac' ? '⌘' : 'Ctrl'}
-              </div>
-              <div className="rounded-lg bg-gray-200 px-2 py-1 text-xs font-medium dark:bg-gray-700">K</div>
-            </div>
-          </button>
 
           <SwitchLang />
 
